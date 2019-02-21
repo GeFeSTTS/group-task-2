@@ -25,13 +25,14 @@ h2 {
   margin: 10px;
 }
 
-.info {
+#info {
   width: 38vw;
   height: 15vh;
   margin-right: 20px;
+  outline: none;
 }
 
-.transpile {
+#transpile {
   height: 50px;
   width: 10vw;
   align-self: flex-end;
@@ -44,11 +45,13 @@ h2 {
   cursor: pointer;
 }
 
-.input,
-.output {
+#input,
+#output {
   border: 2px solid #72c3df;
   border-radius: 3px;
   width: 20vw;
   height: 40vh;
   padding: 2vw;
+  outline: none;
+  resize: none;
 }

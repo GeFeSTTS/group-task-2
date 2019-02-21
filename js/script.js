@@ -12,32 +12,25 @@ let mathOperation = {
   '%': '/',
   '<=': '=',
   '#': '//'
-};
-
-let string = `a: int <= 10;
-b: string <= 'Start '; # comment example
-repeat(int i = 0; i < 10; i++) {
-  a <= a ++ i ^ 2;
-}
-b <= b ++ 'End';`;
-
-function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
 }
 
-function changeValue() {
+function replaceAll(string , find, replace) {
+  return string.replace(new RegExp(find, 'g'), replace);
+}
+
+function changeValue(str) {
   let result = "";
   for (let key in dictionary) {
-    result = replaceAll(string, key, dictionary[key]);
-    string = result;
+    result = replaceAll(str, key, dictionary[key]);
+    str = result;
   }
-  let newString = string.split(' ');
+  let newString = str.split(' ');
 
   for (let i = 0; i < newString.length; i++) {
     for (let key in mathOperation) {
       if (newString[i] === key) {
         newString[i] = mathOperation[key];
-      }
+      } 
     }
   }
 
@@ -55,8 +48,6 @@ function changeValue() {
 
   return readyStr;
 }
-
-console.log(changeValue());
 
 function validateInput(str) {
   const intDeclareRegExp = /\w+: int <= \d+;/g;
@@ -99,7 +90,6 @@ function validateInput(str) {
         return i + 1;
       }
     }
-
    */
 
     if (lineStrings[i].match(/\w+ <= \w+ (\+\+|--|%|^)/g)) {
@@ -113,4 +103,10 @@ function validateInput(str) {
   }
 }
 
-console.log(validateInput(string));
+transpile.onclick = function() {
+  let string = document.getElementById('input').value;
+  let changeString = changeValue(string);
+  document.getElementById('output').innerHTML = changeString; 
+  document.getElementById('info').innerHTML = validateInput(string); 
+  console.log(string, validateInput(string));
+};
