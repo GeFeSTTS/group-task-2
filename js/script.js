@@ -2,14 +2,17 @@ let dictionary = {
   'int': 'var',
   'float': 'var',
   'string': 'var',
+  'repeat': 'for'
+};
+
+let mathOperation = {
   '^': '*',
   '--': '-',
   '++': '+',
   '%': '/',
   '<=': '=',
-  '#': '//',
-  'repeat': 'for'
-};
+  '#': '//'
+}
 
 let string = `a: int <= 10;
 b: string <= 'Start '; # comment example
@@ -18,16 +21,26 @@ repeat(int i = 0; i < 10; i++) {
 }
 b <= b ++ 'End';`;
 
-function changeValue(str) {
-  let newString = str.split(' ');
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function changeValue() {
+  let result = "";
+  for (let key in dictionary) {
+    result = replaceAll(string, key, dictionary[key]);
+    string = result;
+  }
+  let newString = string.split(' ');
 
   for (let i = 0; i < newString.length; i++) {
-    for (let key in dictionary) {
+    for (let key in mathOperation) {
       if (newString[i] === key) {
-        newString[i] = dictionary[key];
-      }
+        newString[i] = mathOperation[key];
+      } 
     }
   }
+
   let readyStr = newString.join(' ');
 
   readyStr = readyStr.replace(/\w: var/g, (match) => {
@@ -43,4 +56,4 @@ function changeValue(str) {
   return readyStr;
 }
 
-console.log(changeValue(string));
+console.log(changeValue());
