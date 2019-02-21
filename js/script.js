@@ -1,37 +1,49 @@
-let keyWords = {
+let dictionary = {
   'int': 'var',
   'float': 'var',
   'string': 'var',
+  'repeat': 'for'
+};
+
+let mathOperation = {
   '^': '*',
   '--': '-',
   '++': '+',
   '%': '/',
   '<=': '=',
-  '#': '//',
-  'repeat': 'for'
+  '#': '//'
 };
 
-let input = `a: int <= 10;
+let string = `a: int <= 10;
 b: string <= 'Start '; # comment example
 repeat(int i = 0; i < 10; i++) {
   a <= a ++ i ^ 2;
 }
 b <= b ++ 'End';`;
 
-function changeValue(str) {
-  let newString = str.split(' ');
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function changeValue() {
+  let result = "";
+  for (let key in dictionary) {
+    result = replaceAll(string, key, dictionary[key]);
+    string = result;
+  }
+  let newString = string.split(' ');
 
   for (let i = 0; i < newString.length; i++) {
-    for (let key in keyWords) {
+    for (let key in mathOperation) {
       if (newString[i] === key) {
-
-        newString[i] = keyWords[key];
+        newString[i] = mathOperation[key];
       }
     }
   }
-  let output = newString.join(' ');
 
-  output = output.replace(/\w+: var/g, (match) => {
+  let readyStr = newString.join(' ');
+
+  readyStr = readyStr.replace(/\w: var/g, (match) => {
     let arrayOfVariableAndVar = match.split(' ');
     let beginDeleteFrom = 0;
     let endDelete = -1;
@@ -41,10 +53,10 @@ function changeValue(str) {
       .slice(beginDeleteFrom, endDelete)].join(' ');
   });
 
-  return output;
+  return readyStr;
 }
 
-console.log(changeValue(input));
+console.log(changeValue());
 
 function validateInput(str) {
   const intDeclareRegExp = /\w+: int <= \d+;/g;
@@ -101,4 +113,4 @@ function validateInput(str) {
   }
 }
 
-console.log(validateInput(input));
+console.log(validateInput(string));

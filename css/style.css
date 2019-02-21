@@ -14,10 +14,7 @@ h2 {
   height: 90vh;
 }
 
-.infobox {
-  display: flex;
-}
-
+.infobox,
 .data {
   display: flex;
 }
