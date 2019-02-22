@@ -101,15 +101,11 @@ function validateInput(str) {
       continue;
     }
 
-    if (lineStrings[i].match(/\w /g)) {
-      if (!lineStrings[i].match(assignmentRegExp)) {
-        return i + 1;
-      }
-    }
-
     if (lineStrings[i].match(/\+/g)) {
       if (lineStrings[i].match(/(?:\(|\))/g)) {
+        console.log(lineStrings[i]);
         let newLine = lineStrings[i].replace(/\(/g, '');
+        console.log(newLine);
         newLine = newLine.replace(/\)/g, '');
         console.log(newLine);
 
@@ -157,6 +153,12 @@ function validateInput(str) {
           return i + 1;
         }
       } else if (!lineStrings[i].match(divideRegExp)) {
+        return i + 1;
+      }
+    }
+
+    if (lineStrings[i].match(/\w /g)) {
+      if (!lineStrings[i].match(assignmentRegExp)) {
         return i + 1;
       }
     }
