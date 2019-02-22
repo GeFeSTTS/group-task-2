@@ -176,7 +176,7 @@ function validateInput(str) {
   }
 }
 
-transpile.onclick = function() {
+document.getElementById('transpile').onclick = function() {
   let string = document.getElementById('input').value;
   let changeString = changeValue(string);
   document.getElementById('output').innerHTML = changeString;
