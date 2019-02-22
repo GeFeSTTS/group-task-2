@@ -110,6 +110,7 @@ function balanceOfBrackets(str) {
   return result;
 }
 function validateInput(str) {
+  let bracketsBalance = balanceOfBrackets(str);
   const intDeclareRegExp = / ?\w+: int <= \d+;/g;
   const intRepeatRegExp = / ?repeat\(int \w+ = \d+; \w+ < \d+; \w(\+\+|--)\)/g;
   const floatDeclareRegExp = / ?\w+: float <= [-+]?[0-9]\.?[0-9]+;/g;
@@ -121,7 +122,7 @@ function validateInput(str) {
   const addRegExp = /(?:\w|') \+\+ (?:\w|')/g;
   const decrementRegExp = /\w+--/g;
   const incrementRegExp = /\w+\+\+/g;
-  const assignmentRegExp = /\w+ <= \w+ (\+\+|--|%|^).*;/g;
+  const assignmentRegExp = /\w+ <= \w+ (?:++|--|%|\^).*;/g;
 
   const lineStrings = str.split('\n');
 
@@ -239,11 +240,10 @@ function validateInput(str) {
     }
   }
 
-  if (result === 0) {
     return `Transpilation completed...no errors found 
     ${bracketsBalance}`;
   } 
-}
+
 
 document.getElementById('transpile').onclick = function() {
   let string = document.getElementById('input').value;
@@ -251,4 +251,4 @@ document.getElementById('transpile').onclick = function() {
   document.getElementById('output').innerHTML = changeString;
   document.getElementById('info').value = validateInput(string);
   console.log(string, validateInput(string));
-};
+}
