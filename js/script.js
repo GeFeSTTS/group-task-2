@@ -69,11 +69,11 @@ function balanceOfBrackets(str) {
       amount: 0,
       line: 0
     }
-  }
+  };
   
   for (let i = 0; i < lines.length; i++){
   for (let j = 0; j < lines[i].length; j++) {
-    let currentymbol = lines[i][j]
+    let currentymbol = lines[i][j];
       if (currentymbol === '(') {
           amounts.RoundBr.amount++;
           amounts.RoundBr.line = i+1;
@@ -252,4 +252,4 @@ document.getElementById('transpile').onclick = function() {
   document.getElementById('output').innerHTML = changeString;
   document.getElementById('info').value = validateInput(string);
   console.log(string, validateInput(string));
-}
+};
