@@ -38,6 +38,7 @@ h2 {
   padding: 2vw;
   border: 2px solid #eee;;
   border-radius: 3px;
+  cursor: default;
 }
 
 .transpile {
@@ -71,3 +72,5 @@ h2 {
   outline: none;
   resize: none;
 }
+
+.output { cursor: default; }
