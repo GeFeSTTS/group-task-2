@@ -50,6 +50,7 @@ function changeValue(str) {
 }
 
 function validateInput(str) {
+  let result = 0;
   const intDeclareRegExp = /\w+: int <= \d+;/g;
   const intRepeatRegExp = /repeat\(int \w+ = \d+; \w+ < \d+; \w(\+\+|--)\)/g;
   const floatDeclareRegExp = /\w+: float <= [-+]?[0-9]\.?[0-9]+;/g;
@@ -101,12 +102,17 @@ function validateInput(str) {
       }
     }
   }
+  if (result === 0) {
+    return 'Transpilation completed...no errors found';
+  } else {
+    return `Line #${result}: syntax error`;
+  }
 }
 
 transpile.onclick = function() {
   let string = document.getElementById('input').value;
   let changeString = changeValue(string);
   document.getElementById('output').innerHTML = changeString; 
-  document.getElementById('info').innerHTML = validateInput(string); 
+  document.getElementById('info').value = validateInput(string); 
   console.log(string, validateInput(string));
 };
