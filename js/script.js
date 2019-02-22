@@ -95,9 +95,7 @@ function balanceOfBrackets(str) {
       }
   }
 }
-  if (amounts.RoundBr.amount === 0 && amounts.CurlyBr.amount === 0 && amounts.SquareBr.amount === 0) {
-      result = 'Correct brackets balance'
-  } else {
+  if (amounts.RoundBr.amount !== 0 || amounts.CurlyBr.amount !== 0 || amounts.SquareBr.amount !== 0) {
     for (let key in amounts) {
       if (amounts[key].line !== 0) {
         lineNum = amounts[key].line;
@@ -122,7 +120,7 @@ function validateInput(str) {
   const addRegExp = /(?:\w|') \+\+ (?:\w|')/g;
   const decrementRegExp = /\w+--/g;
   const incrementRegExp = /\w+\+\+/g;
-  const assignmentRegExp = /\w+ <= \w+ (?:++|--|%|\^).*;/g;
+  const assignmentRegExp = /\w+ <= \w+ (?:\+\+|--|%|\^).*;/g;
 
   const lineStrings = str.split('\n');
 
@@ -239,9 +237,12 @@ function validateInput(str) {
       }
     }
   }
-
-    return `Transpilation completed...no errors found 
-    ${bracketsBalance}`;
+    if(bracketsBalance) {
+      return bracketsBalance;
+    }else {
+      return 'Transpilation completed...no errors found';
+    }
+    
   } 
 
 
