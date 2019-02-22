@@ -120,7 +120,7 @@ function validateInput(str) {
   const addRegExp = /(?:\w|') \+\+ (?:\w|')/g;
   const decrementRegExp = /\w+--/g;
   const incrementRegExp = /\w+\+\+/g;
-  const assignmentRegExp = /\w+ <= \w+ (?:\+\+|--|%|\^).*;/g;
+  const assignmentRegExp = /\w+ <= \w+ (\+\+|--|%|\^).*;/g;
 
   const lineStrings = str.split('\n');
 
