@@ -19,7 +19,7 @@ function replaceAll(string, find, replace) {
 }
 
 function changeValue(str) {
-  let result = "";
+  let result = '';
   for (let key in dictionary) {
     result = replaceAll(str, key, dictionary[key]);
     str = result;
@@ -50,6 +50,7 @@ function changeValue(str) {
 }
 
 function validateInput(str) {
+  let result = 0;
   const intDeclareRegExp = /\w+: int <= \d+;/g;
   const intRepeatRegExp = /repeat\(int \w+ = \d+; \w+ < \d+; \w(\+\+|--)\)/g;
   const floatDeclareRegExp = /\w+: float <= [-+]?[0-9]\.?[0-9]+;/g;
@@ -73,20 +74,22 @@ function validateInput(str) {
     }
 
     if (lineStrings[i].match(/.*#.*/g)) {
-      if (!(lineStrings[i].match(commentRegExp))) {
+      if (!lineStrings[i].match(commentRegExp)) {
         return i + 1;
       }
     }
 
-    if (wordsInString[0].endsWith(':')) {
+    const firstWord = 0;
+
+    if (wordsInString[firstWord].endsWith(':')) {
       if (!(lineStrings[i].match(intDeclareRegExp) ||
         lineStrings[i].match(floatDeclareRegExp) ||
         lineStrings[i].match(stringDeclareRegExp))) {
         return i + 1;
       }
     }
-    if (wordsInString[0].match(/repeat/g)) {
-      if (!(lineStrings[i].match(intRepeatRegExp))) {
+    if (wordsInString[firstWord].match(/repeat/g)) {
+      if (!lineStrings[i].match(intRepeatRegExp)) {
         return i + 1;
       }
       if (!(lineStrings[i].match(incrementRegExp) ||
@@ -96,8 +99,8 @@ function validateInput(str) {
       continue;
     }
 
-    if (!(wordsInString[0].endsWith(':'))) {
-      if (!(lineStrings[i].match(/\w+ <= \w+ (\+\+|--|%|^)/g))) {
+    if (!wordsInString[firstWord].endsWith(':')) {
+      if (!lineStrings[i].match(/\w+ <= \w+ (\+\+|--|%|^)/g)) {
         return i + 1;
       }
     }
@@ -108,10 +111,10 @@ function validateInput(str) {
         newLine = newLine.replace(/\)/g, '');
         console.log(newLine);
 
-        if (!(newLine.match(addRegExp))) {
+        if (!newLine.match(addRegExp)) {
           return i + 1;
         }
-      } else if (!(lineStrings[i].match(addRegExp))) {
+      } else if (!lineStrings[i].match(addRegExp)) {
         return i + 1;
       }
     }
@@ -121,10 +124,10 @@ function validateInput(str) {
         let newLine = lineStrings[i].replace(/\(/g, '');
         newLine = newLine.replace(/\)/g, '');
 
-        if (!(newLine.match(subtractRegExp))) {
+        if (!newLine.match(subtractRegExp)) {
           return i + 1;
         }
-      } else if (!(lineStrings[i].match(subtractRegExp))) {
+      } else if (!lineStrings[i].match(subtractRegExp)) {
         return i + 1;
       }
     }
@@ -134,10 +137,10 @@ function validateInput(str) {
         let newLine = lineStrings[i].replace(/\(/g, '');
         newLine = newLine.replace(/\)/g, '');
 
-        if (!(newLine.match(multiplyRegExp))) {
+        if (!newLine.match(multiplyRegExp)) {
           return i + 1;
         }
-      } else if (!(lineStrings[i].match(multiplyRegExp))) {
+      } else if (!lineStrings[i].match(multiplyRegExp)) {
         return i + 1;
       }
     }
@@ -148,10 +151,10 @@ function validateInput(str) {
         newLine = newLine.replace(/\)/g, '');
         console.log(newLine);
 
-        if (!(newLine.match(divideRegExp))) {
+        if (!newLine.match(divideRegExp)) {
           return i + 1;
         }
-      } else if (!(lineStrings[i].match(divideRegExp))) {
+      } else if (!lineStrings[i].match(divideRegExp)) {
         return i + 1;
       }
     }
@@ -165,23 +168,18 @@ function validateInput(str) {
       }
     }
   }
+
+  if (result === 0) {
+    return 'Transpilation completed...no errors found';
+  } else {
+    return `Line #${result}: syntax error`;
+  }
 }
 
-const string = `a: int <= 10;
-b: string <= 'Start '; # comment example
-
-repeat(int i = 0; i < 10; i++) {
-a <= a ++ i ^ 2;
-}
-
-b <= b ++ 'End';`;
-
-console.log(validateInput(string));
-
-transpile.onclick = function () {
+transpile.onclick = function() {
   let string = document.getElementById('input').value;
   let changeString = changeValue(string);
   document.getElementById('output').innerHTML = changeString;
-  document.getElementById('info').innerHTML = validateInput(string);
+  document.getElementById('info').value = validateInput(string);
   console.log(string, validateInput(string));
 };
