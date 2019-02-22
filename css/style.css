@@ -26,10 +26,11 @@ h2 {
 }
 
 #info {
-  width: 38vw;
+  width: 34vw;
   height: 15vh;
   margin-right: 20px;
   outline: none;
+  padding: 2vw;
 }
 
 #transpile {
