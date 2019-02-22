@@ -70,6 +70,8 @@ function validateInput(str) {
 
   for (let i = 0; i < lineStrings.length; i++) {
 
+    const syntaxError = `Line#${i + 1} syntax error`;
+
     if (lineStrings[i] === '' ||
       lineStrings[i] === ' ' ||
       lineStrings[i] === '}') {
@@ -78,7 +80,7 @@ function validateInput(str) {
 
     if (lineStrings[i].match(/.*#.*/g)) {
       if (!lineStrings[i].match(commentRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
     }
 
@@ -86,17 +88,17 @@ function validateInput(str) {
       if (!(lineStrings[i].match(intDeclareRegExp) ||
         lineStrings[i].match(floatDeclareRegExp) ||
         lineStrings[i].match(stringDeclareRegExp))) {
-        return i + 1;
+        return syntaxError;
       }
       continue;
     }
     if (lineStrings[i].match(/repeat/g)) {
       if (!lineStrings[i].match(intRepeatRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
       if (!(lineStrings[i].match(incrementRegExp) ||
         lineStrings[i].match(decrementRegExp))) {
-        return i + 1;
+        return syntaxError;
       }
       continue;
     }
@@ -110,10 +112,10 @@ function validateInput(str) {
         console.log(newLine);
 
         if (!newLine.match(addRegExp)) {
-          return i + 1;
+          return syntaxError;
         }
       } else if (!lineStrings[i].match(addRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
     }
 
@@ -123,10 +125,10 @@ function validateInput(str) {
         newLine = newLine.replace(/\)/g, '');
 
         if (!newLine.match(subtractRegExp)) {
-          return i + 1;
+          return syntaxError;
         }
       } else if (!lineStrings[i].match(subtractRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
     }
 
@@ -136,10 +138,10 @@ function validateInput(str) {
         newLine = newLine.replace(/\)/g, '');
 
         if (!newLine.match(multiplyRegExp)) {
-          return i + 1;
+          return syntaxError;
         }
       } else if (!lineStrings[i].match(multiplyRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
     }
 
@@ -150,10 +152,10 @@ function validateInput(str) {
         console.log(newLine);
 
         if (!newLine.match(divideRegExp)) {
-          return i + 1;
+          return syntaxError;
         }
       } else if (!lineStrings[i].match(divideRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
     }
 
@@ -166,9 +168,7 @@ function validateInput(str) {
 
   if (result === 0) {
     return 'Transpilation completed...no errors found';
-  } else {
-    return `Line #${result}: syntax error`;
-  }
+  } 
 }
 
 document.getElementById('transpile').onclick = function () {
@@ -178,3 +178,4 @@ document.getElementById('transpile').onclick = function () {
   document.getElementById('info').value = validateInput(string);
   console.log(string, validateInput(string));
 };
+
