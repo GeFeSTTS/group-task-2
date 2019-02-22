@@ -95,9 +95,12 @@ function balanceOfBrackets(str) {
       }
   }
 }
-  if (amounts.RoundBr.amount !== 0 || amounts.CurlyBr.amount !== 0 || amounts.SquareBr.amount !== 0) {
+  let amountOfBraces = 0;
+  if (amounts.RoundBr.amount !== amountOfBraces ||
+    amounts.CurlyBr.amount !== amountOfBraces ||
+    amounts.SquareBr.amount !== amountOfBraces) {
     for (let key in amounts) {
-      if (amounts[key].line !== 0) {
+      if (amounts[key].line !== amountOfBraces) {
         lineNum = amounts[key].line;
         break;
       }
