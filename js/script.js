@@ -70,7 +70,7 @@ function validateInput(str) {
 
   for (let i = 0; i < lineStrings.length; i++) {
 
-    const syntaxError = `Line#${i + 1} syntax error`;
+    const syntaxError = `Line #${i + 1}: syntax error`;
 
     if (lineStrings[i] === '' ||
       lineStrings[i] === ' ' ||
