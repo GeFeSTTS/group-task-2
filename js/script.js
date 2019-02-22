@@ -159,11 +159,18 @@ function validateInput(str) {
       }
     }
 
-    if (lineStrings[i].match(/\w /g)) {
-      if (!lineStrings[i].match(assignmentRegExp)) {
-        return syntaxError;
+    if (lineStrings[i].match(/\w/g)) {
+        if (lineStrings[i].match(/(?:\(|\))/g)) {
+          let newLine = lineStrings[i].replace(/\(/g, '');
+          newLine = newLine.replace(/\)/g, '');
+
+          if (!newLine.match(assignmentRegExp)) {
+            return syntaxError;
+          }
+        } else if (!lineStrings[i].match(assignmentRegExp)) {
+          return syntaxError;
+        }
       }
-    }
   }
 
   if (result === 0) {
