@@ -52,49 +52,50 @@ function changeValue(str) {
 
   return readyStr;
 }
+
 function balanceOfBrackets(str) {
   let lines = str.split('\n');
   let result = '';
   let lineNum = 0;
   let amounts = {
-    RoundBr : {
+    RoundBr: {
       amount: 0,
       line: 0
     },
-    CurlyBr : {
+    CurlyBr: {
       amount: 0,
       line: 0
     },
-    SquareBr : {
+    SquareBr: {
       amount: 0,
       line: 0
     }
   };
-  
-  for (let i = 0; i < lines.length; i++){
-  for (let j = 0; j < lines[i].length; j++) {
-    let currentymbol = lines[i][j];
+
+  for (let i = 0; i < lines.length; i++) {
+    for (let j = 0; j < lines[i].length; j++) {
+      let currentymbol = lines[i][j];
       if (currentymbol === '(') {
-          amounts.RoundBr.amount++;
-          amounts.RoundBr.line = i+1;
+        amounts.RoundBr.amount++;
+        amounts.RoundBr.line = i + 1;
       } else if (currentymbol === ')') {
         amounts.RoundBr.amount--;
-        amounts.RoundBr.line = i+1;
+        amounts.RoundBr.line = i + 1;
       } else if (currentymbol === '{') {
-          amounts.CurlyBr.amount++;
-          amounts.RoundBr.line = i+1;
+        amounts.CurlyBr.amount++;
+        amounts.RoundBr.line = i + 1;
       } else if (currentymbol === '}') {
-          amounts.CurlyBr.amount--;
-          amounts.RoundBr.line = i+1;
+        amounts.CurlyBr.amount--;
+        amounts.RoundBr.line = i + 1;
       } else if (currentymbol === '[') {
-          amounts.SquareBr.amount++;
-          amounts.SquareBr.line = i+1;
+        amounts.SquareBr.amount++;
+        amounts.SquareBr.line = i + 1;
       } else if (currentymbol === ']') {
-          amounts.SquareBr.amount--;
-          amounts.RoundBr.line = i+1;
+        amounts.SquareBr.amount--;
+        amounts.RoundBr.line = i + 1;
       }
+    }
   }
-}
   let amountOfBraces = 0;
   if (amounts.RoundBr.amount !== amountOfBraces ||
     amounts.CurlyBr.amount !== amountOfBraces ||
@@ -105,11 +106,12 @@ function balanceOfBrackets(str) {
         break;
       }
     }
-      result = `Line ${lineNum}: Incorrect brackets balance`
+    result = `Line ${lineNum}: Incorrect brackets balance`
   }
-  
+
   return result;
 }
+
 function validateInput(str) {
   let bracketsBalance = balanceOfBrackets(str);
   const intDeclareRegExp = / ?\w+: int <= \d+;/g;
@@ -240,16 +242,15 @@ function validateInput(str) {
       }
     }
   }
-    if(bracketsBalance) {
-      return bracketsBalance;
-    }else {
-      return 'Transpilation completed...no errors found';
-    }
-    
-  } 
+  if (bracketsBalance) {
+    return bracketsBalance;
+  } else {
+    return 'Transpilation completed...no errors found';
+  }
 
+}
 
-document.getElementById('transpile').onclick = function() {
+document.getElementById('transpile').onclick = function () {
   let string = document.getElementById('input').value;
   let changeString = changeValue(string);
   document.getElementById('output').innerHTML = changeString;
