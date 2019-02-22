@@ -161,7 +161,7 @@ function validateInput(str) {
 
     if (lineStrings[i].match(/\w /g)) {
       if (!lineStrings[i].match(assignmentRegExp)) {
-        return i + 1;
+        return syntaxError;
       }
     }
   }
