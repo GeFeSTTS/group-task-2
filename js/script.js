@@ -64,11 +64,11 @@ function validateInput(str) {
   const addRegExp = /(?:\w|') \+\+ (?:\w|')/g;
   const decrementRegExp = /\w+--/g;
   const incrementRegExp = /\w+\+\+/g;
+  const assignmentRegExp = /\w+ <= \w+ (\+\+|--|%|^).*;/g;
 
   const lineStrings = str.split('\n');
 
   for (let i = 0; i < lineStrings.length; i++) {
-    const wordsInString = lineStrings[i].split(' ');
 
     if (lineStrings[i] === '' ||
       lineStrings[i] === ' ' ||
@@ -102,7 +102,7 @@ function validateInput(str) {
     }
 
     if (lineStrings[i].match(/\w /g)) {
-      if (!lineStrings[i].match(/\w+ <= \w+ (\+\+|--|%|^)/g)) {
+      if (!lineStrings[i].match(assignmentRegExp)) {
         return i + 1;
       }
     }
