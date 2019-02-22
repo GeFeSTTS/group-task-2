@@ -21,8 +21,10 @@ function replaceAll(string, find, replace) {
 function changeValue(str) {
   let result = '';
   for (let key in dictionary) {
-    result = replaceAll(str, key, dictionary[key]);
-    str = result;
+    if (dictionary.hasOwnProperty(key)) {
+      result = replaceAll(str, key, dictionary[key]);
+      str = result;
+    }
   }
   let newString = str.split(' ');
 
@@ -177,7 +179,7 @@ function validateInput(str) {
   }
 }
 
-document.getElementById('transpile').onclick = function() {
+document.getElementById('transpile').onclick = function () {
   let string = document.getElementById('input').value;
   let changeString = changeValue(string);
   document.getElementById('output').innerHTML = changeString;
