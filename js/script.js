@@ -53,10 +53,10 @@ function changeValue(str) {
 
 function validateInput(str) {
   let result = 0;
-  const intDeclareRegExp = /\w+: int <= \d+;/g;
-  const intRepeatRegExp = /repeat\(int \w+ = \d+; \w+ < \d+; \w(\+\+|--)\)/g;
-  const floatDeclareRegExp = /\w+: float <= [-+]?[0-9]\.?[0-9]+;/g;
-  const stringDeclareRegExp = /\w+: string <= '.*';/g;
+  const intDeclareRegExp = / ?\w+: int <= \d+;/g;
+  const intRepeatRegExp = / ?repeat\(int \w+ = \d+; \w+ < \d+; \w(\+\+|--)\)/g;
+  const floatDeclareRegExp = / ?\w+: float <= [-+]?[0-9]\.?[0-9]+;/g;
+  const stringDeclareRegExp = / ?\w+: string <= '.*';/g;
   const commentRegExp = /^[^#]*#[^#]*$/g;
   const multiplyRegExp = /(?:\w|') \^ (?:\w|')/g;
   const divideRegExp = /(?:\w|') % (?:\w|')/g;
@@ -82,16 +82,15 @@ function validateInput(str) {
       }
     }
 
-    const firstWord = 0;
-
-    if (wordsInString[firstWord].endsWith(':')) {
+    if (lineStrings[i].match(/\w:/g)) {
       if (!(lineStrings[i].match(intDeclareRegExp) ||
         lineStrings[i].match(floatDeclareRegExp) ||
         lineStrings[i].match(stringDeclareRegExp))) {
         return i + 1;
       }
+      continue;
     }
-    if (wordsInString[firstWord].match(/repeat/g)) {
+    if (lineStrings[i].match(/repeat/g)) {
       if (!lineStrings[i].match(intRepeatRegExp)) {
         return i + 1;
       }
@@ -102,7 +101,7 @@ function validateInput(str) {
       continue;
     }
 
-    if (!wordsInString[firstWord].endsWith(':')) {
+    if (lineStrings[i].match(/\w /g)) {
       if (!lineStrings[i].match(/\w+ <= \w+ (\+\+|--|%|^)/g)) {
         return i + 1;
       }
@@ -158,15 +157,6 @@ function validateInput(str) {
           return i + 1;
         }
       } else if (!lineStrings[i].match(divideRegExp)) {
-        return i + 1;
-      }
-    }
-
-    if (lineStrings[i].match(/\w+ <= \w+ (\+\+|--|%|^)/g)) {
-      if (!(lineStrings[i].match(multiplyRegExp) ||
-        lineStrings[i].match(divideRegExp) ||
-        lineStrings[i].match(subtractRegExp) ||
-        lineStrings[i].match(addRegExp))) {
         return i + 1;
       }
     }
