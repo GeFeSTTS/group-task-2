@@ -69,6 +69,7 @@ function validateInput(str) {
     const wordsInString = lineStrings[i].split(' ');
 
     if (lineStrings[i] === '' ||
+      lineStrings[i] === ' ' ||
       lineStrings[i] === '}') {
       continue;
     }
