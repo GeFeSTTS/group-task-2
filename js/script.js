@@ -50,8 +50,65 @@ function changeValue(str) {
 
   return readyStr;
 }
-
+function balanceOfBrackets(str) {
+  let lines = str.split('\n');
+  let result = '';
+  let lineNum = 0;
+  let amounts = {
+    RoundBr : {
+      amount: 0,
+      line: 0
+    },
+    CurlyBr : {
+      amount: 0,
+      line: 0
+    },
+    SquareBr : {
+      amount: 0,
+      line: 0
+    }
+  }
+  
+  for (let i = 0; i < lines.length; i++){
+  for (let j = 0; j < lines[i].length; j++) {
+    let currentymbol = lines[i][j]
+      if (currentymbol === '(') {
+          amounts.RoundBr.amount++;
+          amounts.RoundBr.line = i+1;
+      } else if (currentymbol === ')') {
+        amounts.RoundBr.amount--;
+        amounts.RoundBr.line = i+1;
+      } else if (currentymbol === '{') {
+          amounts.CurlyBr.amount++;
+          amounts.RoundBr.line = i+1;
+      } else if (currentymbol === '}') {
+          amounts.CurlyBr.amount--;
+          amounts.RoundBr.line = i+1;
+      } else if (currentymbol === '[') {
+          amounts.SquareBr.amount++;
+          amounts.SquareBr.line = i+1;
+      } else if (currentymbol === ']') {
+          amounts.SquareBr.amount--;
+          amounts.RoundBr.line = i+1;
+      }
+  }
+}
+  if (amounts.RoundBr.amount === 0 && amounts.CurlyBr.amount === 0 && amounts.SquareBr.amount === 0) {
+      result = 'Correct brackets balance'
+  } else {
+    for (let key in amounts) {
+      if (amounts[key].line !== 0) {
+        lineNum = amounts[key].line;
+        break;
+      }
+    }
+      result = `Line ${lineNum}: Incorrect brackets balance`
+  }
+  
+  return result;
+}
 function validateInput(str) {
+  let bracketsBalance = balanceOfBrackets(str);
   let result = 0;
   const intDeclareRegExp = / ?\w+: int <= \d+;/g;
   const intRepeatRegExp = / ?repeat\(int \w+ = \d+; \w+ < \d+; \w(\+\+|--)\)/g;
@@ -167,7 +224,8 @@ function validateInput(str) {
   }
 
   if (result === 0) {
-    return 'Transpilation completed...no errors found';
+    return `Transpilation completed...no errors found 
+    ${bracketsBalance}`;
   } 
 }
 
